@@ -28,20 +28,20 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 
 fun Canvas.drawColoredVToH(i : Int, sf : Float, w : Float, size : Float, paint : Paint) {
 
-    val sf1 : Float = sf.divideScale(0, parts)
-    val sf2 : Float = sf.divideScale(1, parts)
+    val sf1 : Float = sf.divideScale(0, parts + 1)
+    val sf2 : Float = sf.divideScale(1, parts + 1)
     val si : Float = 1f - 2 * i
     val x : Float = w / 2 - size / 2
-    val sx : Float = w / 2 - size
+    val sx : Float = w - size
     save()
-    translate(i * sx + x * si * sf2, size * i)
-    drawRect(RectF(size * (1 - sf1) * i, 0f, size * i + size * (1 - i) * sf1, size), paint)
+    translate(-w / 2 + i * sx + x * si * sf2, -size + size * i)
+    drawRect(RectF(0f, size - size * sf1, size, size), paint)
     restore()
 }
 
 fun Canvas.drawColoredVToHBars(scale : Float, w : Float, size : Float, paint : Paint) {
     val sf : Float = scale.sinify()
-    val sf3 : Float = sf.divideScale(2, parts)
+    val sf3 : Float = sf.divideScale(2, parts + 1)
     for (j in 0..(parts - 2)) {
         save()
         rotate(rot * sf3)
