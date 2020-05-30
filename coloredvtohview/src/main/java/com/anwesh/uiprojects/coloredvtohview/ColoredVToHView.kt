@@ -187,4 +187,27 @@ class ColoredVToHView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ColoredVToHView) {
+
+        private val animator : Animator = Animator(view)
+        private val cvth : ColoredVToHBar = ColoredVToHBar(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            cvth.draw(canvas, paint)
+            animator.animate {
+                cvth.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            cvth.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
